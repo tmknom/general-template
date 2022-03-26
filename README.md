@@ -1,1 +1,1 @@
-# general-template
+# General Template
