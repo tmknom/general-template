@@ -78,3 +78,7 @@ Finally, we can use the new version! :tada:
 
 </details>
 <!-- markdownlint-enable no-inline-html -->
+
+## Changelog
+
+See [CHANGELOG.md](/CHANGELOG.md).
