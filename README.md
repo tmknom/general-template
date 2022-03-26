@@ -82,3 +82,7 @@ Finally, we can use the new version! :tada:
 ## Changelog
 
 See [CHANGELOG.md](/CHANGELOG.md).
+
+## License
+
+Apache 2 Licensed. See [LICENSE](/LICENSE) for full details.
