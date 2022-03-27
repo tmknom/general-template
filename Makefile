@@ -104,7 +104,9 @@ lint-action: ## lint action by actionlint
 
 .PHONY: lint-shell
 lint-shell: ## lint shell by shellcheck and shfmt
+ifneq ($(SHELL_FILES),)
 	$(SECURE_DOCKER_RUN) $(SHELLCHECK) $(SHELL_FILES)
+endif
 	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -d .
 
 #
