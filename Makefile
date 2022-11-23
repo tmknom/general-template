@@ -26,9 +26,7 @@ SHELL := /bin/bash
 # Variables for the file and directory path
 #
 ROOT_DIR ?= $(shell $(GIT) rev-parse --show-toplevel)
-MARKDOWN_FILES ?= $(shell find . -name '*.md')
 YAML_FILES ?= $(shell find . -name '*.y*ml')
-SHELL_FILES ?= $(shell find . -name '*.sh')
 
 #
 # Variables to be used by Git and GitHub CLI
@@ -62,11 +60,8 @@ SECURE_DOCKER_RUN ?= $(DOCKER_RUN) $(DOCKER_RUN_SECURE_OPTIONS)
 #
 REGISTRY ?= ghcr.io/tmknom/dockerfiles
 PRETTIER ?= $(REGISTRY)/prettier:latest
-MARKDOWNLINT ?= $(REGISTRY)/markdownlint:latest
 YAMLLINT ?= $(REGISTRY)/yamllint:latest
 ACTIONLINT ?= rhysd/actionlint:latest
-SHELLCHECK ?= koalaman/shellcheck:stable
-SHFMT ?= mvdan/shfmt:latest
 
 #
 # Variables for the version
@@ -79,53 +74,33 @@ MAJOR_VERSION ?= $(shell version=$(SEMVER) && echo "$${version%%.*}")
 # Test
 #
 .PHONY: test
-test: ## test all
+test: ## test
 	echo "fix me"
 
 #
 # Lint
 #
 .PHONY: lint
-lint: lint-markdown lint-yaml lint-action lint-shell ## lint all
-
-.PHONY: lint-markdown
-lint-markdown: ## lint markdown by markdownlint and prettier
-	$(SECURE_DOCKER_RUN) $(MARKDOWNLINT) --dot --config .markdownlint.yml $(MARKDOWN_FILES)
-	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=markdown $(MARKDOWN_FILES)
+lint: lint-yaml lint-action ## lint
 
 .PHONY: lint-yaml
-lint-yaml: ## lint yaml by yamllint and prettier
+lint-yaml:
 	$(SECURE_DOCKER_RUN) $(YAMLLINT) --strict --config-file .yamllint.yml .
 	$(SECURE_DOCKER_RUN) $(PRETTIER) --check --parser=yaml $(YAML_FILES)
 
 .PHONY: lint-action
-lint-action: ## lint action by actionlint
+lint-action:
 	$(SECURE_DOCKER_RUN) $(ACTIONLINT) -color -ignore '"permissions" section should not be empty.'
-
-.PHONY: lint-shell
-lint-shell: ## lint shell by shellcheck and shfmt
-ifneq ($(SHELL_FILES),)
-	$(SECURE_DOCKER_RUN) $(SHELLCHECK) $(SHELL_FILES)
-endif
-	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -d .
 
 #
 # Format code
 #
-.PHONY: format
-format: format-markdown format-yaml format-shell ## format all
+.PHONY: fmt
+fmt: fmt-yaml ## format code
 
-.PHONY: format-markdown
-format-markdown: ## format markdown by prettier
-	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=markdown $(MARKDOWN_FILES)
-
-.PHONY: format-yaml
-format-yaml: ## format yaml by prettier
+.PHONY: fmt-yaml
+fmt-yaml:
 	$(SECURE_DOCKER_RUN) $(PRETTIER) --write --parser=yaml $(YAML_FILES)
-
-.PHONY: format-shell
-format-shell: ## format shell by shfmt
-	$(SECURE_DOCKER_RUN) $(SHFMT) -i 2 -ci -bn -w .
 
 #
 # Release management
@@ -172,14 +147,11 @@ all: clean install lint format test ## all
 .PHONY: install
 install: ## install docker images
 	$(DOCKER_PULL) $(PRETTIER)
-	$(DOCKER_PULL) $(MARKDOWNLINT)
 	$(DOCKER_PULL) $(YAMLLINT)
 	$(DOCKER_PULL) $(ACTIONLINT)
-	$(DOCKER_PULL) $(SHELLCHECK)
-	$(DOCKER_PULL) $(SHFMT)
 
 .PHONY: clean
-clean: ## clean all
+clean: ## clean
 	echo "fix me"
 
 .PHONY: help
