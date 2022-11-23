@@ -105,6 +105,7 @@ fmt-yaml:
 #
 # Release management
 #
+.PHONY: release
 release: ## release
 	$(GIT) tag --force --message "$(SEMVER)" "$(SEMVER)" && \
 	$(GIT) tag --force --message "$(SEMVER)" "$(MAJOR_VERSION)" && \
