@@ -1,12 +1,11 @@
-github:
-  - ".github/**/*"
-
 docs:
   - "**/*.md"
 
 chore:
+  - ".github/workflows/*.yml"
+  - ".github/*.yml"
+  - ".gitignore"
+  - ".yamllint.yml"
+  - "CODEOWNERS"
   - "Makefile"
   - "VERSION"
-  - ".gitignore"
-  - ".markdownlint.yml"
-  - ".yamllint.yml"
