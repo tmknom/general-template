@@ -1,21 +1,11 @@
 changelog:
   exclude:
-    labels:
-      - github
-      - docs
-      - chore
     authors:
-      - dependabot[bot]
+      - github-actions
   categories:
-    - title: BREAKING CHANGES
+    - title: Exciting New Features 🎉
       labels:
-        - breaking-change
-    - title: NEW FEATURES
+        - enhancement
+    - title: Bug Fixes 🐛
       labels:
-        - new-features
-    - title: BUG FIXES
-      labels:
-        - bug-fixes
-    - title: ENHANCEMENTS
-      labels:
-        - enhancements
+        - bug
